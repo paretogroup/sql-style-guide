@@ -600,21 +600,17 @@ Closing CTE parentheses should use the same indentation level AS `WITH` and the 
 ```sql
 -- Good
 WITH ordered_details AS (
-
     SELECT
         user_id,
         name,
         ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY date_updated DESC) AS details_rank
     FROM billingdaddy.billing_stored_details
-
 ),
 
 final AS (
-
     SELECT user_id, name
     FROM ordered_details
     WHERE details_rank = 1
-
 )
 
 SELECT * FROM final
