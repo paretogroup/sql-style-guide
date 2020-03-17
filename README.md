@@ -9,7 +9,7 @@ However, know when to be inconsistent -- sometimes style guide recommendations j
 
 In particular: do not break backwards compatibility just to comply with this Style Guide!
 
-NOTE: This style guide is written for use with BigQuery, but much of it can be applied to any SQL database.
+NOTE: This style guide is written for use with **BigQuery**, but much of it can be applied to any SQL database.
 
 ## Example
 
