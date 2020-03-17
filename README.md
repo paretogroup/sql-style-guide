@@ -1,6 +1,15 @@
 
 # Pareto's SQL Style Guide
 
+Paraphrasing [PEP 8](https://www.python.org/dev/peps/pep-0008/#a-foolish-consistency-is-the-hobgoblin-of-little-minds):
+
+A style guide is about consistency. Consistency with this style guide is important. Consistency within a project is more important. Consistency within one module or function is the most important.
+
+However, know when to be inconsistent -- sometimes style guide recommendations just aren't applicable. When in doubt, use your best judgment. Look at other examples and decide what looks best. And don't hesitate to ask!
+
+In particular: do not break backwards compatibility just to comply with this Style Guide!
+
+NOTE: This style guide is written for use with BigQuery, but much of it can be applied to any SQL database.
 
 ## Example
 
