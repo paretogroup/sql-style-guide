@@ -61,7 +61,7 @@ Select * From users
 
 ### Single line vs multiple line queries
 
-The only time you should place all of your SQL ON a single line is WHEN you're selecting one thing AND there's no additional complexity in the query:
+The only time you should place all of your SQL on a single line is when you're selecting one thing and there's no additional complexity in the query:
 
 ```sql
 -- Good
@@ -74,7 +74,7 @@ SELECT id FROM users
 SELECT COUNT(*) FROM users
 ```
 
-Once you start adding more columns or more complexity, the query becomes easier to read if it's spread out ON multiple lines:
+Once you start adding more columns or more complexity, the query becomes easier to read if it's spread out on multiple lines:
 
 ```sql
 -- Good
@@ -108,7 +108,7 @@ FROM users
 
 ### Left align SQL keywords
 
-Some IDEs have the ability to automatically format SQL so that the spaces after the SQL keywords are vertically aligned. This is cumbersome to do by hAND (AND in my opinion harder to read anyway) so I recommEND just LEFT aligning all of the keywords:
+Some IDEs have the ability to automatically format SQL so that the spaces after the SQL keywords are vertically aligned. This is cumbersome to do by hand (and in my opinion harder to read anyway) so I recommend just left aligning all of the keywords:
 
 ```sql
 -- Good
@@ -169,7 +169,7 @@ FROM users
 
 ### Indenting WHERE conditions
 
-When there's only one WHERE condition, leave it ON the same line AS `WHERE`:
+When there's only one WHERE condition, leave it on the same line as `WHERE`:
 
 ```sql
 SELECT email
@@ -203,7 +203,7 @@ FROM users
 WHERE id IN ( 1, 2 )
 ```
 
-### Break long lists of `in` values into multiple indented lines
+### Break long lists of `IN` values into multiple indented lines
 
 ```sql
 -- Good
@@ -217,7 +217,7 @@ WHERE email IN (
 )
 ```
 
-### Table names should be a plural snake CASE of the noun
+### Table names should be a plural snake case of the noun
 
 ```sql
 -- Good
@@ -229,7 +229,7 @@ SELECT * FROM user
 SELECT * FROM visitLog
 ```
 
-### Column names should be snake_CASE
+### Column names should be snake_case
 
 ```sql
 -- Good
@@ -249,13 +249,13 @@ FROM users
 
 ### Column name conventions
 
-* Boolean fields should be prefixed WITH `is_`, `has_`, or `does_`. For example, `is_customer`, `has_unsubscribed`, etc.
-* Date-only fields should be suffixed WITH `_date`. For example, `report_date`.
-* Date+time fields should be suffixed WITH `_at`. For example, `created_at`, `posted_at`, etc.
+* Boolean fields should be prefixed with `is_`, `has_`, or `does_`. For example, `is_customer`, `has_unsubscribed`, etc.
+* Date-only fields should be suffixed with `_date`. For example, `report_date`.
+* Date+time fields should be suffixed with `_at`. For example, `created_at`, `posted_at`, etc.
 
 ### Column order conventions
 
-Put the primary key first, followed by foreign keys, THEN by all other columns. If the table has any system columns (`created_at`, `updated_at`, `is_deleted`, etc.), put those last.
+Put the primary key first, followed by foreign keys, then by all other columns. If the table has any system columns (`created_at`, `updated_at`, `is_deleted`, etc.), put those last.
 
 ```sql
 -- Good
@@ -318,7 +318,7 @@ FROM users
 LEFT JOIN charges ON charges.user_id = users.id
 ```
 
-### Single JOIN conditions should be ON the same line AS the JOIN
+### Single JOIN conditions should be on the same line as the JOIN
 
 ```sql
 -- Good
@@ -339,7 +339,7 @@ ON users.id = charges.user_id
 GROUP BY email
 ```
 
-When you have mutliple JOIN conditions, place each one ON their own indented line:
+When you have mutliple JOIN conditions, place each one on their own indented line:
 
 ```sql
 -- Good
@@ -355,7 +355,7 @@ GROUP BY email
 
 ### Avoid aliasing table names most of the time
 
-It can be tempting to abbreviate table names like `users` to `u` AND `charges` to `c`, but it winds up making the SQL less readable:
+It can be tempting to abbreviate table names like `users` to `u` and `charges` to `c`, but it winds up making the SQL less readable:
 
 ```sql
 -- Good
@@ -377,9 +377,9 @@ Most of the time you'll want to type out the full table name.
 
 There are two exceptions:
 
-If you you need to JOIN to a table more than once in the same query AND need to distinguish each version of it, aliases are necessary.
+If you you need to join to a table more than once in the same query and need to distinguish each version of it, aliases are necessary.
 
-Also, if you're working WITH long or ambiguous table names, it can be useful to alias them (but still use meaningful names):
+Also, if you're working with long or ambiguous table names, it can be useful to alias them (but still use meaningful names):
 
 ```sql
 -- Good: Meaningful table aliases
@@ -441,7 +441,7 @@ INNER JOIN charges ON users.id = charges.user_id
 
 ```
 
-### Always rename aggregates AND function-wrapped arguments
+### Always rename aggregates and function-wrapped arguments
 
 ```sql
 -- Good
@@ -472,7 +472,7 @@ SELECT * FROM customers WHERE is_cancelled = false
 
 -- Bad
 SELECT * FROM customers WHERE is_cancelled
-SELECT * FROM customers WHERE not is_cancelled
+SELECT * FROM customers WHERE NOT is_cancelled
 ```
 
 ### Use `as` to alias column names
@@ -517,7 +517,7 @@ FROM users
 GROUP BY 1, vertical
 ```
 
-### Take advantage of lateral column aliasing WHEN grouping by name
+### Take advantage of lateral column aliasing when grouping by name
 
 ```sql
 -- Good
@@ -555,7 +555,7 @@ GROUP BY signup_year
 
 ### Aligning CASE/WHEN statements
 
-Each `WHEN` should be ON its own line (nothing ON the `CASE` line) AND should be indented one level deeper than the `CASE` line. The `THEN` can be ON the same line or ON its own line below it, just aim to be consistent.
+Each `WHEN` should be ON its own line (nothing on the `CASE` line) AND should be indented one level deeper than the `CASE` line. The `THEN` can be on the same line or on its own line below it, just aim to be consistent.
 
 ```sql
 -- Good
@@ -591,11 +591,11 @@ FROM events
 
 Avoid subqueries; CTEs will make your queries easier to read AND reason about.
 
-When using CTEs, pad the query WITH new lines. 
+When using CTEs, pad the query with new lines. 
 
 If you use any CTEs, always have a CTE named `final` AND `SELECT * FROM final` at the END. That way you can quickly inspect the output of other CTEs used in the query to debug the results.
 
-Closing CTE parentheses should use the same indentation level AS `WITH` AND the CTE names.
+Closing CTE parentheses should use the same indentation level AS `WITH` and the CTE names.
 
 ```sql
 -- Good
