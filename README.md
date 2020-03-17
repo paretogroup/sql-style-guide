@@ -43,7 +43,7 @@ SELECT * FROM final
 ```
 ## Guidelines
 
-### Use lowerCASE SQL
+### Use uppercase SQL
 
 It's easy to read even when you don't have good syntax highlighting.
 
@@ -292,7 +292,7 @@ FROM users
 JOIN charges ON users.id = charges.user_id
 ```
 
-### For JOIN conditions, put the table that was referenced first immediately after the `on`
+### For JOIN conditions, put the table that was referenced first immediately after the `ON`
 
 By doing it this way it makes it easier to determine if your JOIN is going to cause the results to fan out:
 
@@ -403,7 +403,7 @@ FROM stg_mysql_helpscout__helpscout_companies c
 INNER JOIN stg_mysql_helpscout__helpscout_beacons_v2 b ON c.com_id = b.com_id
 ```
 
-### Include the table WHEN there is a JOIN, but omit it otherwise
+### Include the table when there is a JOIN, but omit it otherwise
 
 When there are no JOIN involved, there's no ambiguity around which table the columns came FROM so you can leave the table name out:
 
