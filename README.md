@@ -12,7 +12,7 @@ Here's a non-trivial query to give you an idea of what this style guide looks li
 WITH hubspot_interest AS (
     SELECT
         email,
-        timestamp_millis(property_beacon_interest) AS expressed_interest_at
+        TIMESTAMP_MILLIS(property_beacon_interest) AS expressed_interest_at
     FROM hubspot.contact
     WHERE property_beacon_interest IS NOT NULL
 ), 
@@ -20,7 +20,7 @@ WITH hubspot_interest AS (
 support_interest AS (
     SELECT 
         conversation.email,
-        conversation.created_at as expressed_interest_at
+        conversation.created_at AS expressed_interest_at
     FROM helpscout.conversation
     INNER JOIN helpscout.conversation_tag ON conversation.id = conversation_tag.conversation_id
     WHERE conversation_tag.tag = 'beacon-interest'
@@ -35,7 +35,7 @@ combined_interest AS (
 final AS (
     SELECT 
         email,
-        min(expressed_interest_at) AS expressed_interest_at
+        MIN(expressed_interest_at) AS expressed_interest_at
     FROM combined_interest
     GROUP BY email
 )
@@ -44,16 +44,16 @@ SELECT * FROM final
 ```
 ## Guidelines
 
-### Use lowercase SQL
+### Use lowerCASE SQL
 
-It's just as readable as uppercase SQL and you won't have to constantly be holding down a shift key.
+It's easy to read even when you don't have good syntax highlighting.
 
 ```sql
 -- Good
-select * from users
+SELECT * FROM users
 
 -- Bad
-SELECT * FROM users
+select * from users
 
 -- Bad
 Select * From users
@@ -61,65 +61,67 @@ Select * From users
 
 ### Single line vs multiple line queries
 
-The only time you should place all of your SQL on a single line is when you're selecting one thing and there's no additional complexity in the query:
+The only time you should place all of your SQL ON a single line is WHEN you're selecting one thing AND there's no additional complexity in the query:
 
 ```sql
 -- Good
-select * from users
+SELECT * FROM users
 
 -- Good
-select id from users
+SELECT id FROM users
 
 -- Good
-select count(*) from users
+SELECT COUNT(*) FROM users
 ```
 
-Once you start adding more columns or more complexity, the query becomes easier to read if it's spread out on multiple lines:
+Once you start adding more columns or more complexity, the query becomes easier to read if it's spread out ON multiple lines:
 
 ```sql
 -- Good
-select
+SELECT
     id,
     email,
     created_at
-from users
+FROM users
 
 -- Good
-select *
-from users
-where email = 'example@domain.com'
+SELECT *
+FROM users
+WHERE email = 'example@domain.com'
 
 -- Good
-select
+SELECT
     user_id,
-    count(*) as total_charges
-from charges
-group by user_id
+    COUNT(*) AS total_charges
+FROM charges
+GROUP BY user_id
 
 -- Bad
-select id, email, created_at
-from users
+SELECT id, email, created_at
+FROM users
 
 -- Bad
-select id,
+SELECT id,
     email
-from users
+FROM users
 ```
 
 ### Left align SQL keywords
 
-Some IDEs have the ability to automatically format SQL so that the spaces after the SQL keywords are vertically aligned. This is cumbersome to do by hand (and in my opinion harder to read anyway) so I recommend just left aligning all of the keywords:
+Some IDEs have the ability to automatically format SQL so that the spaces after the SQL keywords are vertically aligned. This is cumbersome to do by hAND (AND in my opinion harder to read anyway) so I recommEND just LEFT aligning all of the keywords:
 
 ```sql
 -- Good
-select id, email
-from users
-where email like '%@gmail.com'
+SELECT 
+    id, 
+    email
+FROM users
+WHERE email LIKE '%@gmail.com'
 
 -- Bad
-select id, email
-  from users
- where email like '%@gmail.com'
+SELECT id, email
+  FROM users
+ WHERE email LIKE '%@gmail.com'
 ```
 
 ### Use single quotes
@@ -128,14 +130,14 @@ Some SQL dialects like BigQuery support using double quotes, but for most dialec
 
 ```sql
 -- Good
-select *
-from users
-where email = 'example@domain.com'
+SELECT *
+FROM users
+WHERE email = 'example@domain.com'
 
 -- Bad
-select *
-from users
-where email = "example@domain.com"
+SELECT *
+FROM users
+WHERE email = "example@domain.com"
 ```
 
 ### Use `!=` over `<>`
@@ -144,68 +146,70 @@ Simply because `!=` reads like "not equal" which is closer to how we'd say it ou
 
 ```sql
 -- Good
-select count(*) as paying_users_count
-from users
-where plan_name != 'free'
+SELECT COUNT(*) AS paying_users_count
+FROM users
+WHERE plan_name != 'free'
 ```
 
-### Commas should be at the the end of lines
+### Commas should be at the the END of lines
 
 ```sql
 -- Good
-select
+SELECT
     id,
     email
-from users
+FROM users
 
 -- Bad
-select
+SELECT
     id
     , email
-from users
+FROM users
 ```
 
-### Indenting where conditions
+### Indenting WHERE conditions
 
-When there's only one where condition, leave it on the same line as `where`:
+When there's only one WHERE condition, leave it ON the same line AS `WHERE`:
 
 ```sql
-select email
-from users
-where id = 1234
+SELECT email
+FROM users
+WHERE id = 1234
 ```
 
-When there are multiple, indent each one one level deeper than the `where`. Put logical operators at the end of the previous condition:
+When there are multiple, indent each one one level deeper than the `WHERE`. Put logical operators at the BEGINNING of the previous condition:
 
 ```sql
-select id, email
-from users
-where 
-    created_at >= '2019-03-01' and 
-    vertical = 'work'
+SELECT 
+    id, 
+    email
+FROM users
+WHERE 
+    created_at >= '2019-03-01' 
+    AND vertical = 'work'
 ```
 
 ### Avoid spaces inside of parenthesis
 
 ```sql
 -- Good
-select *
-from users
-where id in (1, 2)
+SELECT *
+FROM users
+WHERE id IN (1, 2)
 
 -- Bad
-select *
-from users
-where id in ( 1, 2 )
+SELECT *
+FROM users
+WHERE id IN ( 1, 2 )
 ```
 
 ### Break long lists of `in` values into multiple indented lines
 
 ```sql
 -- Good
-select *
-from users
-where email in (
+SELECT *
+FROM users
+WHERE email IN (
     'user-1@example.com',
     'user-2@example.com',
     'user-3@example.com',
@@ -213,280 +217,280 @@ where email in (
 )
 ```
 
-### Table names should be a plural snake case of the noun
+### Table names should be a plural snake CASE of the noun
 
 ```sql
 -- Good
-select * from users
-select * from visit_logs
+SELECT * FROM users
+SELECT * FROM visit_logs
 
 -- Bad
-select * from user
-select * from visitLog
+SELECT * FROM user
+SELECT * FROM visitLog
 ```
 
-### Column names should be snake_case
+### Column names should be snake_CASE
 
 ```sql
 -- Good
-select
+SELECT
     id,
     email,
-    timestamp_trunc(created_at, month) as signup_month
-from users
+    TIMESTAMP_TRUNC(created_at, month) AS signup_month
+FROM users
 
 -- Bad
-select
+SELECT
     id,
     email,
-    timestamp_trunc(created_at, month) as SignupMonth
-from users
+    TIMESTAMP_TRUNC(created_at, month) AS SignupMonth
+FROM users
 ```
 
 ### Column name conventions
 
-* Boolean fields should be prefixed with `is_`, `has_`, or `does_`. For example, `is_customer`, `has_unsubscribed`, etc.
-* Date-only fields should be suffixed with `_date`. For example, `report_date`.
-* Date+time fields should be suffixed with `_at`. For example, `created_at`, `posted_at`, etc.
+* Boolean fields should be prefixed WITH `is_`, `has_`, or `does_`. For example, `is_customer`, `has_unsubscribed`, etc.
+* Date-only fields should be suffixed WITH `_date`. For example, `report_date`.
+* Date+time fields should be suffixed WITH `_at`. For example, `created_at`, `posted_at`, etc.
 
 ### Column order conventions
 
-Put the primary key first, followed by foreign keys, then by all other columns. If the table has any system columns (`created_at`, `updated_at`, `is_deleted`, etc.), put those last.
+Put the primary key first, followed by foreign keys, THEN by all other columns. If the table has any system columns (`created_at`, `updated_at`, `is_deleted`, etc.), put those last.
 
 ```sql
 -- Good
-select
+SELECT
     id,
     name,
     created_at
-from users
+FROM users
 
 -- Bad
-select
+SELECT
     created_at,
     name,
     id,
-from users
+FROM users
 ```
 
-### Include `inner` for inner joins
+### Include `INNER` for INNER JOINs
 
-Better to be explicit so that the join type is crystal clear:
+Better to be explicit so that the JOIN type is crystal clear:
 
 ```sql
 -- Good
-select
+SELECT
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-inner join charges on users.id = charges.user_id
+    SUM(charges.amount) AS total_revenue
+FROM users
+INNER JOIN charges ON users.id = charges.user_id
 
 -- Bad
-select
+SELECT
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-join charges on users.id = charges.user_id
+    SUM(charges.amount) AS total_revenue
+FROM users
+JOIN charges ON users.id = charges.user_id
 ```
 
-### For join conditions, put the table that was referenced first immediately after the `on`
+### For JOIN conditions, put the table that was referenced first immediately after the `on`
 
-By doing it this way it makes it easier to determine if your join is going to cause the results to fan out:
+By doing it this way it makes it easier to determine if your JOIN is going to cause the results to fan out:
 
 ```sql
 -- Good
-select
+SELECT
     ...
-from users
-left join charges on users.id = charges.user_id
+FROM users
+LEFT JOIN charges ON users.id = charges.user_id
 -- primary_key = foreign_key --> one-to-many --> fanout
   
-select
+SELECT
     ...
-from charges
-left join users on charges.user_id = users.id
+FROM charges
+LEFT JOIN users ON charges.user_id = users.id
 -- foreign_key = primary_key --> many-to-one --> no fanout
 
 -- Bad
-select
+SELECT
     ...
-from users
-left join charges on charges.user_id = users.id
+FROM users
+LEFT JOIN charges ON charges.user_id = users.id
 ```
 
-### Single join conditions should be on the same line as the join
+### Single JOIN conditions should be ON the same line AS the JOIN
 
 ```sql
 -- Good
 select
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-inner join charges on users.id = charges.user_id
-group by email
+    SUM(charges.amount) AS total_revenue
+FROM users
+INNER JOIN charges ON users.id = charges.user_id
+GROUP BY email
 
 -- Bad
-select
+SELECT
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-inner join charges
-on users.id = charges.user_id
-group by email
+    SUM(charges.amount) AS total_revenue
+FROM users
+INNER JOIN charges
+ON users.id = charges.user_id
+GROUP BY email
 ```
 
-When you have mutliple join conditions, place each one on their own indented line:
+When you have mutliple JOIN conditions, place each one ON their own indented line:
 
 ```sql
 -- Good
-select
+SELECT
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-inner join charges on 
-    users.id = charges.user_id and
-    refunded = false
-group by email
+    SUM(charges.amount) AS total_revenue
+FROM users
+INNER JOIN charges ON 
+    users.id = charges.user_id 
+    AND refunded = false
+GROUP BY email
 ```
 
 ### Avoid aliasing table names most of the time
 
-It can be tempting to abbreviate table names like `users` to `u` and `charges` to `c`, but it winds up making the SQL less readable:
+It can be tempting to abbreviate table names like `users` to `u` AND `charges` to `c`, but it winds up making the SQL less readable:
 
 ```sql
 -- Good
-select
+SELECT
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-inner join charges on users.id = charges.user_id
+    SUM(charges.amount) AS total_revenue
+FROM users
+INNER JOIN charges ON users.id = charges.user_id
 
 -- Bad
-select
+SELECT
     u.email,
-    sum(c.amount) as total_revenue
-from users u
-inner join charges c on u.id = c.user_id
+    SUM(c.amount) AS total_revenue
+FROM users u
+INNER JOIN charges c ON u.id = c.user_id
 ```
 
 Most of the time you'll want to type out the full table name.
 
 There are two exceptions:
 
-If you you need to join to a table more than once in the same query and need to distinguish each version of it, aliases are necessary.
+If you you need to JOIN to a table more than once in the same query AND need to distinguish each version of it, aliases are necessary.
 
-Also, if you're working with long or ambiguous table names, it can be useful to alias them (but still use meaningful names):
+Also, if you're working WITH long or ambiguous table names, it can be useful to alias them (but still use meaningful names):
 
 ```sql
 -- Good: Meaningful table aliases
-select
+SELECT
   companies.com_name,
   beacons.created_at
-from stg_mysql_helpscout__helpscout_companies companies
-inner join stg_mysql_helpscout__helpscout_beacons_v2 beacons on companies.com_id = beacons.com_id
+FROM stg_mysql_helpscout__helpscout_companies companies
+INNER JOIN stg_mysql_helpscout__helpscout_beacons_v2 beacons ON companies.com_id = beacons.com_id
 
 -- OK: No table aliases
-select
+SELECT
   stg_mysql_helpscout__helpscout_companies.com_name,
   stg_mysql_helpscout__helpscout_beacons_v2.created_at
-from stg_mysql_helpscout__helpscout_companies
-inner join stg_mysql_helpscout__helpscout_beacons_v2 on stg_mysql_helpscout__helpscout_companies.com_id = stg_mysql_helpscout__helpscout_beacons_v2.com_id
+FROM stg_mysql_helpscout__helpscout_companies
+INNER JOIN stg_mysql_helpscout__helpscout_beacons_v2 ON stg_mysql_helpscout__helpscout_companies.com_id = stg_mysql_helpscout__helpscout_beacons_v2.com_id
 
 -- Bad: Unclear table aliases
-select
+SELECT
   c.com_name,
   b.created_at
-from stg_mysql_helpscout__helpscout_companies c
-inner join stg_mysql_helpscout__helpscout_beacons_v2 b on c.com_id = b.com_id
+FROM stg_mysql_helpscout__helpscout_companies c
+INNER JOIN stg_mysql_helpscout__helpscout_beacons_v2 b ON c.com_id = b.com_id
 ```
 
-### Include the table when there is a join, but omit it otherwise
+### Include the table WHEN there is a JOIN, but omit it otherwise
 
-When there are no join involved, there's no ambiguity around which table the columns came from so you can leave the table name out:
+When there are no JOIN involved, there's no ambiguity around which table the columns came FROM so you can leave the table name out:
 
 ```sql
 -- Good
-select
+SELECT
     id,
     name
-from companies
+FROM companies
 
 -- Bad
-select
+SELECT
     companies.id,
     companies.name
-from companies
+FROM companies
 ```
 
-But when there are joins involved, it's better to be explicit so it's clear where the columns originated:
+But WHEN there are JOINs involved, it's better to be explicit so it's clear WHERE the columns originated:
 
 ```sql
 -- Good
-select
+SELECT
     users.email,
-    sum(charges.amount) as total_revenue
-from users
-inner join charges on users.id = charges.user_id
+    SUM(charges.amount) AS total_revenue
+FROM users
+INNER JOIN charges ON users.id = charges.user_id
 
 -- Bad
-select
+SELECT
     email,
-    sum(amount) as total_revenue
-from users
-inner join charges on users.id = charges.user_id
+    SUM(amount) AS total_revenue
+FROM users
+INNER JOIN charges ON users.id = charges.user_id
 
 ```
 
-### Always rename aggregates and function-wrapped arguments
+### Always rename aggregates AND function-wrapped arguments
 
 ```sql
 -- Good
-select count(*) as total_users
-from users
+SELECT COUNT(*) AS total_users
+FROM users
 
 -- Bad
-select count(*)
-from users
+select COUNT(*)
+FROM users
 
 -- Good
-select timestamp_millis(property_beacon_interest) as expressed_interest_at
-from hubspot.contact
-where property_beacon_interest is not null
+SELECT TIMESTAMP_MILLIS(property_beacon_interest) AS expressed_interest_at
+FROM hubspot.contact
+WHERE property_beacon_interest IS NOT NULL
 
 -- Bad
-select timestamp_millis(property_beacon_interest)
-from hubspot.contact
-where property_beacon_interest is not null
+SELECT TIMESTAMP_MILLIS(property_beacon_interest)
+FROM hubspot.contact
+WHERE property_beacon_interest IS NOT NULL
 ```
 
 ### Be explicit in boolean conditions
 
 ```sql
 -- Good
-select * from customers where is_cancelled = true
-select * from customers where is_cancelled = false
+SELECT * FROM customers WHERE is_cancelled = true
+SELECT * FROM customers WHERE is_cancelled = false
 
 -- Bad
-select * from customers where is_cancelled
-select * from customers where not is_cancelled
+SELECT * FROM customers WHERE is_cancelled
+SELECT * FROM customers WHERE not is_cancelled
 ```
 
 ### Use `as` to alias column names
 
 ```sql
 -- Good
-select
+SELECT
     id,
     email,
-    timestamp_trunc(created_at, month) as signup_month
-from users
+    TIMESTAMP_TRUNC(created_at, month) AS signup_month
+FROM users
 
 -- Bad
-select
+SELECT
     id,
     email,
-    timestamp_trunc(created_at, month) signup_month
-from users
+    TIMESTAMP_TRUNC(created_at, month) signup_month
+FROM users
 ```
 
 ### Group using column names or numbers, but not both
@@ -495,146 +499,146 @@ I prefer grouping by name, but grouping by numbers is [also fine](https://blog.g
 
 ```sql
 -- Good
-select user_id, count(*) as total_charges
-from charges
-group by user_id
+SELECT user_id, COUNT(*) AS total_charges
+FROM charges
+GROUP BY user_id
 
 -- Good
-select user_id, count(*) as total_charges
-from charges
-group by 1
+SELECT user_id, COUNT(*) AS total_charges
+FROM charges
+GROUP BY 1
 
 -- Bad
-select
-    timestamp_trunc(created_at, month) as signup_month,
+SELECT
+    TIMESTAMP_TRUNC(created_at, month) AS signup_month,
     vertical,
-    count(*) as users_count
-from users
-group by 1, vertical
+    COUNT(*) AS users_count
+FROM users
+GROUP BY 1, vertical
 ```
 
-### Take advantage of lateral column aliasing when grouping by name
+### Take advantage of lateral column aliasing WHEN grouping by name
 
 ```sql
 -- Good
-select
-  timestamp_trunc(com_created_at, year) as signup_year,
-  count(*) as total_companies
-from companies
-group by signup_year
+SELECT
+  TIMESTAMP_TRUNC(com_created_at, year) AS signup_year,
+  COUNT(*) AS total_companies
+FROM companies
+GROUP BY signup_year
 
 -- Bad
-select
-  timestamp_trunc(com_created_at, year) as signup_year,
-  count(*) as total_companies
-from companies
-group by timestamp_trunc(com_created_at, year)
+SELECT
+  TIMESTAMP_TRUNC(com_created_at, year) AS signup_year,
+  COUNT(*) AS total_companies
+FROM companies
+GROUP BY TIMESTAMP_TRUNC(com_created_at, year)
 ```
 
 ### Grouping columns should go first
 
 ```sql
 -- Good
-select
-  timestamp_trunc(com_created_at, year) as signup_year,
-  count(*) as total_companies
-from companies
-group by signup_year
+SELECT
+  TIMESTAMP_TRUNC(com_created_at, year) AS signup_year,
+  COUNT(*) AS total_companies
+FROM companies
+GROUP BY signup_year
 
 -- Bad
-select
-  count(*) as total_companies,
-  timestamp_trunc(com_created_at, year) as signup_year
-from mysql_helpscout.helpscout_companies
-group by signup_year
+SELECT
+  COUNT(*) AS total_companies,
+  TIMESTAMP_TRUNC(com_created_at, year) AS signup_year
+FROM mysql_helpscout.helpscout_companies
+GROUP BY signup_year
 ```
 
-### Aligning case/when statements
+### Aligning CASE/WHEN statements
 
-Each `when` should be on its own line (nothing on the `case` line) and should be indented one level deeper than the `case` line. The `then` can be on the same line or on its own line below it, just aim to be consistent.
+Each `WHEN` should be ON its own line (nothing ON the `CASE` line) AND should be indented one level deeper than the `CASE` line. The `THEN` can be ON the same line or ON its own line below it, just aim to be consistent.
 
 ```sql
 -- Good
-select
-    case
-        when event_name = 'viewed_homepage' then 'Homepage'
-        when event_name = 'viewed_editor' then 'Editor'
-        else 'Other'
-    end as page_name
-from events
+SELECT
+    CASE
+        WHEN event_name = 'viewed_homepage' THEN 'Homepage'
+        WHEN event_name = 'viewed_editor' THEN 'Editor'
+        ELSE 'Other'
+    END AS page_name
+FROM events
 
 -- Good too
-select
-    case
-        when event_name = 'viewed_homepage'
-            then 'Homepage'
-        when event_name = 'viewed_editor'
-            then 'Editor'
-        else 'Other'            
-    end as page_name
-from events
+SELECT
+    CASE
+        WHEN event_name = 'viewed_homepage'
+            THEN 'Homepage'
+        WHEN event_name = 'viewed_editor'
+            THEN 'Editor'
+        ELSE 'Other'            
+    END AS page_name
+FROM events
 
 -- Bad 
-select
-    case when event_name = 'viewed_homepage' then 'Homepage'
-        when event_name = 'viewed_editor' then 'Editor'
-        else 'Other'        
-    end as page_name
-from events
+SELECT
+    CASE WHEN event_name = 'viewed_homepage' THEN 'Homepage'
+        WHEN event_name = 'viewed_editor' THEN 'Editor'
+        ELSE 'Other'        
+    END AS page_name
+FROM events
 ```
 
 ### Use CTEs, not subqueries
 
-Avoid subqueries; CTEs will make your queries easier to read and reason about.
+Avoid subqueries; CTEs will make your queries easier to read AND reason about.
 
-When using CTEs, pad the query with new lines. 
+When using CTEs, pad the query WITH new lines. 
 
-If you use any CTEs, always have a CTE named `final` and `select * from final` at the end. That way you can quickly inspect the output of other CTEs used in the query to debug the results.
+If you use any CTEs, always have a CTE named `final` AND `SELECT * FROM final` at the END. That way you can quickly inspect the output of other CTEs used in the query to debug the results.
 
-Closing CTE parentheses should use the same indentation level as `with` and the CTE names.
+Closing CTE parentheses should use the same indentation level AS `WITH` AND the CTE names.
 
 ```sql
 -- Good
-with ordered_details as (
+WITH ordered_details AS (
 
-    select
+    SELECT
         user_id,
         name,
-        row_number() over (partition by user_id order by date_updated desc) as details_rank
-    from billingdaddy.billing_stored_details
+        ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY date_updated DESC) AS details_rank
+    FROM billingdaddy.billing_stored_details
 
 ),
 
-final as (
+final AS (
 
-    select user_id, name
-    from ordered_details
-    where details_rank = 1
+    SELECT user_id, name
+    FROM ordered_details
+    WHERE details_rank = 1
 
 )
 
-select * from final
+SELECT * FROM final
 
 -- Bad
-select user_id, name
-from (
-    select
+SELECT user_id, name
+FROM (
+    SELECT
         user_id,
         name,
-        row_number() over (partition by user_id order by date_updated desc) as details_rank
-    from billingdaddy.billing_stored_details
+        ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY date_updated DESC) AS details_rank
+    FROM billingdaddy.billing_stored_details
 ) ranked
-where details_rank = 1
+WHERE details_rank = 1
 ```
 
 ### Use meaningful CTE names
 
 ```sql
 -- Good
-with ordered_details as (
+WITH ordered_details AS (
 
 -- Bad
-with d1 as (
+WITH d1 AS (
 ```
 
 ### Window functions
@@ -643,21 +647,21 @@ You can leave it all on its own line or break it up into multiple depending on i
 
 ```sql
 -- Good
-select
+SELECT
     user_id,
     name,
-    row_number() over (partition by user_id order by date_updated desc) as details_rank
-from billingdaddy.billing_stored_details
+    ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY date_updated DESC) AS details_rank
+FROM billingdaddy.billing_stored_details
 
 -- Good
-select
+SELECT
     user_id,
     name,
-    row_number() over (
-        partition by user_id
-        order by date_updated desc
-    ) as details_rank
-from billingdaddy.billing_stored_details
+    ROW_NUMBER() OVER (
+        PARTITION BY user_id
+        ORDER BY date_updated DESC
+    ) AS details_rank
+FROM billingdaddy.billing_stored_details
 ```
 
 ## Credits
@@ -666,6 +670,6 @@ This style guide was inspired in part by:
 
 * [Fishtown Analytics' dbt Style Guide](https://github.com/fishtown-analytics/corp/blob/master/dbt_coding_conventions.md#sql-style-guide)
 * [KickStarter's SQL Style Guide](https://gist.github.com/fredbenenson/7bb92718e19138c20591)
-* [GitLab's SQL Style Guide](https://about.gitlab.com/handbook/business-ops/data-team/sql-style-guide/)
+* [GitLab's SQL Style Guide](https://about.gitlab.com/hANDbook/business-ops/data-team/sql-style-guide/)
 
-Hat-tip to Peter Butler, Dan Wyman, Simon Ouderkirk, Alex Cano, Adam Stone, Brian Kim, and Claire Carroll for providing feedback on this guide.
+Hat-tip to Peter Butler, Dan Wyman, Simon Ouderkirk, Alex Cano, Adam Stone, Brian Kim, AND Claire Carroll for providing feedback on this guide.
