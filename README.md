@@ -588,13 +588,13 @@ FROM events
 
 ### Use CTEs, not subqueries
 
-Avoid subqueries; CTEs will make your queries easier to read AND reason about.
+Avoid subqueries; CTEs will make your queries easier to read and reason about.
 
-When using CTEs, pad the query with new lines. 
+Always use an empty line between CTEs.
 
-If you use any CTEs, always have a CTE named `final` AND `SELECT * FROM final` at the END. That way you can quickly inspect the output of other CTEs used in the query to debug the results.
+If you use any CTEs, always have a CTE named `final` and `SELECT * FROM final` at the end. That way you can quickly inspect the output of other CTEs used in the query to debug the results.
 
-Closing CTE parentheses should use the same indentation level AS `WITH` and the CTE names.
+Closing CTE parentheses should use the same indentation level as `WITH` and the CTE names.
 
 ```sql
 -- Good
